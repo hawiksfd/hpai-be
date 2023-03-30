@@ -1,0 +1,29 @@
+version: '3.3'
+
+services:
+  db:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_DATABASE: hpai-be-test
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3366:3366"
+  web:
+    build: .
+    restart: always
+    volumes:
+      - .:/app
+      - node_modules:/app/node_modules
+    ports:
+      - 7700:7700
+    stdin_open: true
+    environment:
+      - PORT=7700
+    command: npm start
+    links:
+      - db
+
+volumes:
+  node_modules:
+    
